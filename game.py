@@ -192,20 +192,33 @@ def evaluation_function(valid_move_set, level, deck):
             for card in pile.cards:
                 if card.face_up:
                     face_ups.append(card)        
-            temp_deck = deck
+        temp_deck = deck
         for possibility in valid_move_set:
             temp_piles = []
             temp_pile = []
             temp_point = 0
+            face_down_cards = []
             for pile in deck.piles:
-                if pile == possibility[0]:
-                    temp_pile = pile.cards[:len(pile.cards) - 1] #@TODO Check later
-                    
-                if pile != possibility[0]:
+                if pile == possibility[1]:
+                    temp_pile = pile.cards #@TODO Check later
+                    temp_pile.append(possibility[3])
+                    temp_piles.append(temp_pile)
+                if pile != possibility[1]:
                     temp_piles.append(pile)
-            # for card in pile.cards:       
-            #         face_ups.append(card)
-        
+                for card in pile.cards:
+                    if not card.face_up:
+                        face_down_cards.append(card)
+            for card in face_down_cards:
+                for pile in deck.piles:
+                    if pile == possibility[0]:
+                        temp_pile = pile.cards #@TODO Check later
+                        temp_pile.append(possibility[3])
+                        temp_piles.append(temp_pile)
+                    if pile != possibility[0]:
+                        temp_piles.append(pile)
+                    for card in pile.cards:
+                        if not card.face_up:
+                            face_down_cards.append(card)
 
             # for pile in deck.piles:
               
